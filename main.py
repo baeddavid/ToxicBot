@@ -10,17 +10,16 @@ def sentiment_analyzer_scores(text):
 	trans = translator.translate(text).text
 	score = analyzer.polarity_scores(trans)
 	lb = score['compound']
-	if lb > 0.1:
-		return 'simpy'
-	elif lb >= 0.05:
-		return 'wholesome'
+	if lb > 0.5:
+		return 'simpy ' + str(lb)
+	elif (lb >= 0.05) and (lb < 0.5):
+		return 'wholesome ' + str(lb)
 	elif(lb > -0.05) and (lb < 0.05):
-		return 'okay I guess'
-	elif(lb < 0.05):
-		return 'toxic and problematic. Check yourself'
+		return 'okay I guess ' + str(lb)
+	elif lb < 0.05:
+		return 'toxic and problematic. Check yourself ' + str(lb)
 	else:
-		return 'toady'
-
+		return 'toady ' + str(lb)
 @client.event
 async def on_ready():
 	print('We haev loggen in as {0.user}'.format(client))
