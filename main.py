@@ -20,6 +20,7 @@ def sentiment_analyzer_scores(text):
 		return 'toxic and problematic. Check yourself ' + str(lb)
 	else:
 		return 'toady ' + str(lb)
+
 @client.event
 async def on_ready():
 	print('We haev loggen in as {0.user}'.format(client))
@@ -34,4 +35,12 @@ async def on_message(message):
 		print('sentiment: ' + str(sentiment))
 		await message.channel.send('Your message was ' + str(sentiment))
 
+@client.event
+async def on_message(message):
+	if message.author == client.user:
+		return
+
+	if message.content.startswith("!delete"):
+		count = int(message.content.replace("!delete", ""))
+		await message.channel.purge(limit=count + 1)
 client.run('key')
